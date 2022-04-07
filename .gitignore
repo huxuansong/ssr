@@ -17,7 +17,8 @@ develop-eggs
 pip-log.txt
 
 # Unit test / coverage reports
-.coverage
+htmlcov
+.coverage*
 .tox
 
 #Translations
@@ -28,3 +29,8 @@ pip-log.txt
 
 .DS_Store
 .idea
+
+# Ignore user config
+user-config.json
+userapiconfig.py
+usermysql.json
