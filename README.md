@@ -1,138 +1,106 @@
 shadowsocks
 ===========
 
-Current version: 1.4.5 [![Build Status][1]][0]
+[![PyPI version]][PyPI]
+[![Build Status]][Travis CI]
+[![Coverage Status]][Coverage]
 
-shadowsocks is a lightweight tunnel proxy which can help you get through firewalls.
+A fast tunnel proxy that helps you bypass firewalls.
 
-Both TCP CONNECT and UDP ASSOCIATE are implemented.
+Server
+------
 
-[中文说明][3]
+### Install
 
-Install
--------
+Debian / Ubuntu:
 
-First, make sure you have Python 2.6 or 2.7.
-
-    $ python --version
-    Python 2.6.8
-
-Install Shadowsocks.
-
-#### Debian / Ubuntu:
-
-    apt-get install python-pip python-gevent python-m2crypto
+    apt-get install python-pip
     pip install shadowsocks
 
-#### CentOS:
+CentOS:
 
-    yum install m2crypto python-setuptools
-    easy_install pip
+    yum install python-setuptools && easy_install pip
     pip install shadowsocks
 
-#### OS X:
+Windows:
 
-    git clone https://github.com/clowwindy/M2Crypto.git
-    cd M2Crypto
-    pip install .
-    pip install shadowsocks
+See [Install Server on Windows]
 
-#### Windows:
+### Usage
 
-Choose a [GUI client][7]
+    ssserver -p 443 -k password -m aes-256-cfb
 
-Usage
------
+To run in the background:
 
-Create a config file `/etc/shadowsocks.json` (or put it in other path).
-Example:
+    sudo ssserver -p 443 -k password -m aes-256-cfb --user nobody -d start
 
-    {
-        "server":"my_server_ip",
-        "server_port":8388,
-        "local_address": "127.0.0.1",
-        "local_port":1080,
-        "password":"mypassword",
-        "timeout":300,
-        "method":"aes-256-cfb",
-        "fast_open": false,
-        "workers": 1
-    }
+To stop:
 
-Explanation of the fields:
+    sudo ssserver -d stop
 
-| Name          | Explanation                                     |
-| ------------- | ----------------------------------------------- |
-| server        | the address your server listens                 |
-| server_port   | server port                                     |
-| local_address | the address your local listens                  |
-| local_port    | local port                                      |
-| password      | password used for encryption                    |
-| timeout       | in seconds                                      |
-| method        | encryption method, "aes-256-cfb" is recommended |
-| fast_open     | use [TCP_FASTOPEN][2], true / false             |
-| workers       | number of workers, available on Unix/Linux      |
+To check the log:
 
-Run `ssserver -c /etc/shadowsocks.json` on your server. To run it in the background, [use supervisor][8].
+    sudo less /var/log/shadowsocks.log
 
-On your client machine, run `sslocal -c /etc/shadowsocks.json`.
+Check all the options via `-h`. You can also use a [Configuration] file
+instead.
 
-Change the proxy settings in your browser to
+Client
+------
 
-    protocol: socks5
-    hostname: 127.0.0.1
-    port:     your local_port
+* [Windows] / [OS X]
+* [Android] / [iOS]
+* [OpenWRT]
 
-**Notice: If you want to use encryption methods other than "table", please install M2Crypto (See Encryption Section).**
+Use GUI clients on your local PC/phones. Check the README of your client
+for more information.
 
-It's recommended to use shadowsocks with AutoProxy or Proxy SwitchySharp.
+Documentation
+-------------
 
-Command line args
-------------------
-
-You can use args to override settings from `config.json`.
-
-    sslocal -s server_name -p server_port -l local_port -k password -m bf-cfb
-    ssserver -p server_port -k password -m bf-cfb --workers 2
-    ssserver -c /etc/shadowsocks/config.json
-
-Salsa20
--------
-
-Salsa20 is a fast stream cipher.
-
-Use "salsa20-ctr" in shadowsocks.json.
-
-And install these packages:
-
-#### Debian / Ubuntu:
-
-    apt-get install python-numpy
-    pip install salsa20
-
-Wiki
-----
-
-https://github.com/clowwindy/shadowsocks/wiki
+You can find all the documentation in the [Wiki].
 
 License
 -------
-MIT
+
+Copyright 2015 clowwindy
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
 
 Bugs and Issues
 ----------------
-Please visit [issue tracker][5]
 
-Mailing list: http://groups.google.com/group/shadowsocks
+* [Troubleshooting]
+* [Issue Tracker]
+* [Mailing list]
 
-Also see [troubleshooting][6]
 
-[0]: https://travis-ci.org/clowwindy/shadowsocks
-[1]: https://travis-ci.org/clowwindy/shadowsocks.png?branch=master
-[2]: https://github.com/clowwindy/shadowsocks/wiki/TCP-Fast-Open
-[3]: https://github.com/clowwindy/shadowsocks/wiki/Shadowsocks-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E
-[4]: http://chandlerproject.org/Projects/MeTooCrypto
-[5]: https://github.com/clowwindy/shadowsocks/issues?state=open
-[6]: https://github.com/clowwindy/shadowsocks/wiki/Troubleshooting
-[7]: https://github.com/clowwindy/shadowsocks/wiki/Ports-and-Clients
-[8]: https://github.com/clowwindy/shadowsocks/wiki/Configure-Shadowsocks-with-Supervisor
+
+[Android]:           https://github.com/shadowsocks/shadowsocks-android
+[Build Status]:      https://img.shields.io/travis/shadowsocks/shadowsocks/master.svg?style=flat
+[Configuration]:     https://github.com/shadowsocks/shadowsocks/wiki/Configuration-via-Config-File
+[Coverage Status]:   https://jenkins.shadowvpn.org/result/shadowsocks
+[Coverage]:          https://jenkins.shadowvpn.org/job/Shadowsocks/ws/PYENV/py34/label/linux/htmlcov/index.html
+[Debian sid]:        https://packages.debian.org/unstable/python/shadowsocks
+[iOS]:               https://github.com/shadowsocks/shadowsocks-iOS/wiki/Help
+[Issue Tracker]:     https://github.com/shadowsocks/shadowsocks/issues?state=open
+[Install Server on Windows]: https://github.com/shadowsocks/shadowsocks/wiki/Install-Shadowsocks-Server-on-Windows
+[Mailing list]:      https://groups.google.com/group/shadowsocks
+[OpenWRT]:           https://github.com/shadowsocks/openwrt-shadowsocks
+[OS X]:              https://github.com/shadowsocks/shadowsocks-iOS/wiki/Shadowsocks-for-OSX-Help
+[PyPI]:              https://pypi.python.org/pypi/shadowsocks
+[PyPI version]:      https://img.shields.io/pypi/v/shadowsocks.svg?style=flat
+[Travis CI]:         https://travis-ci.org/shadowsocks/shadowsocks
+[Troubleshooting]:   https://github.com/shadowsocks/shadowsocks/wiki/Troubleshooting
+[Wiki]:              https://github.com/shadowsocks/shadowsocks/wiki
+[Windows]:           https://github.com/shadowsocks/shadowsocks-csharp
